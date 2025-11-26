@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>ltlab — Data Careers, Internships & Learning Lab</title>
+  <!-- Site icon / nav image -->
+  <link rel="icon" type="image/jpeg"
+        href="{{ url_for('static', filename='images/navimage.jpg') }}">
+
+  <style>
+    :root{
+      --brand:#1f3c88; /* deep indigo */
+      --brand-2:#0b63f6; /* accent */
+      --ink:#101114;
+      --muted:#4a4f5a;
+      --bg:#ffffff;
+      --card:#fafafa;
+      --ring:rgba(31,60,136,.15);
+      --shadow:0 8px 24px rgba(16,17,20,.06);
+      --radius:14px;
+      --container:1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.5 "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      background:var(--bg);
+    }
+    .container{max-width:var(--container);margin-inline:auto;padding:0 24px}
+    /* --- Navbar --- */
+    .navbar{position:sticky;top:0;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #eee;z-index:50}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .logo-dot{width:28px;height:28px;border-radius:999px;background:radial-gradient(60% 60% at 30% 30%,#9ad,#48f 60%,#1f3c88);box-shadow:inset 0 0 0 2px #ecf2ff}
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.2s ease;cursor:pointer}
+    .btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px var(--ring)}
+    .btn-primary:hover{transform:translateY(-1px)}
+    .btn-outline{border-color:var(--brand);color:var(--brand);background:#fff}
+
+    /* --- Hero --- */
+    .hero{padding:56px 0}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+    .tag{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--brand);background:#eef2ff;border:1px solid #e2e8ff;padding:6px 10px;border-radius:999px;margin-bottom:14px}
+    .hero h1{font-size:clamp(28px,5vw,56px);line-height:1.05;margin:10px 0 14px}
+    .hero h1 .accent{color:var(--brand)}
+    .hero p{color:var(--muted);max-width:56ch}
+    .hero-actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .hero-media{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    .hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* --- Section headings --- */
+    section{padding:56px 0}
+    .section-head{text-align:center;margin-bottom:26px}
+    .section-head h2{font-size:clamp(22px,3.6vw,36px);margin:0 0 6px}
+    .section-head p{color:var(--muted);margin:0}
+
+    /* --- Cards --- */
+    .cards{display:grid;gap:20px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:var(--card);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #eee}
+    .card h3{margin:4px 0 8px}
+    .checklist{padding-left:0;list-style:none}
+    .checklist li{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+    .check{width:18px;height:18px;border-radius:999px;background:#e9efff;display:inline-grid;place-items:center;font-size:12px;color:var(--brand)}
+
+    /* --- Services --- */
+    .service-card h4{margin:2px 0 10px}
+
+    /* --- Industry Tabs --- */
+    .tabs{display:inline-flex;background:#f3f4f7;border-radius:999px;padding:6px;gap:6px}
+    .tabs button{border:none;background:transparent;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:600;color:#5a5f6b}
+    .tabs button.active{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+    .industry-wrap{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;margin-top:20px}
+    .industry-wrap img{width:100%;border-radius:14px;box-shadow:var(--shadow)}
+
+    /* --- Success Stories --- */
+    .story h4{margin:0 0 8px}
+    .story .meta{display:inline-block;font-size:.75rem;background:#eef2ff;border:1px solid #e2e8ff;color:var(--brand);padding:4px 8px;border-radius:999px;margin-bottom:10px}
+
+    /* --- FAQ --- */
+    .faq{max-width:860px;margin:0 auto}
+    details{background:#fff;border:1px solid #eaecf0;border-radius:12px;padding:14px 18px;box-shadow:var(--shadow)}
+    details+details{margin-top:12px}
+    summary{cursor:pointer;font-weight:600}
+    details p{color:var(--muted);margin:10px 0 0}
+
+    /* --- CTA --- */
+    .cta{background:linear-gradient(180deg,#f7f9ff,#fff);border:1px solid #edf0ff;border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:var(--shadow)}
+    .cta h3{margin:0}
+
+    /* --- Footer --- */
+    footer{border-top:1px solid #eee;padding:36px 0 20px;background:#fbfbfd}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:26px}
+    footer h4{margin:0 0 10px}
+    footer p, footer li{color:#5a5f6b}
+    footer ul{list-style:none;padding:0;margin:0}
+    footer li{margin:6px 0}
+    .copyright{text-align:center;color:#8a8f99;margin-top:22px;font-size:.9rem}
+
+    /* --- Responsive --- */
+    @media (max-width: 980px){
+      .hero-grid, .industry-wrap{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .cta{flex-direction:column;align-items:flex-start}
+      .nav-links{display:none}
+    }
+    @media (max-width: 560px){
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo"><span class="logo-dot"></span>ltlab</div>
+      <nav class="nav-links">
+        <a href="{{ url_for('research') }}" title="Learning resources and guides from LTLab">
+          Research
+        </a>
+        <a href="{{ url_for('jobs') }}">
+          Jobs
+        </a>
+        <a href="{{ url_for('apply') }}">Apply Now</a>
+      </nav>
+      <a class="btn btn-primary" href="{{ url_for('learn') }}">Learn With AI</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="tag">
+          LTLab Data Internship 📊
+        </span>
+        <h1>Kickstart Your Career in <span class="accent">Data</span></h1>
+        <p>
+          A focused 2-month internship in Data Science, Data Engineering, and
+          Data Analytics. Hybrid and remote-friendly, with dedicated deep-work
+          days, real project reviews, and a community of mentors who actually
+          ship data products.
+        </p>
+        <p style="font-size:.85rem;color:#6b7280;margin-top:10px;">
+          We don’t run formal classes here. For structured learning, join
+          <strong>LuxDevHQ</strong>. For real projects, internships and practice,
+          join <strong>LTLab</strong>.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{{ url_for('apply') }}">
+            Apply for the next cohort
+          </a>
+          <a class="btn btn-outline" href="#how-it-works">
+            How it works
+          </a>
+        </div>
+      </div>
+      <div class="hero-media"
+           style="position:relative;
+                  border-radius:16px;
+                  overflow:hidden;
+                  box-shadow:0 10px 30px rgba(15,23,42,0.08);
+                  aspect-ratio:16/9;
+                  max-height:460px;">
+        <img alt="LTLab fellows working on laptops"
+             src="{{ url_for('static', filename='images/hero.jpg') }}"
+             style="width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    object-position:center;
+                    display:block;"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY WORK WITH LTLAB -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <h2>Why you should work with LTLab</h2>
+        <p>
+          LTLab is not a school and we don’t run classes. We are a project and
+          internship lab where you work on real data problems with real teams.
+          If you want structured courses, join <strong>LuxDevHQ</strong>.
+          If you want hands-on experience, you belong here.
+        </p>
+      </div>
+      <div class="cards grid-3">
+        <article class="card">
+          <h3>Real work, not lectures</h3>
+          <p>
+            You won’t sit through slides. You’ll ship dashboards, pipelines and notebooks
+            that could live inside an actual product team.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Weekly project sprints</li>
+            <li><span class="check">✔</span> Code and notebook reviews</li>
+            <li><span class="check">✔</span> Exposure to production-like workflows</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Embedded in real teams</h3>
+          <p>
+            Work alongside mentors and partners who use data every day in startups,
+            NGOs, and established companies across Africa.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Pairing with practicing data pros</li>
+            <li><span class="check">✔</span> Feedback on how you work, not just what you know</li>
+            <li><span class="check">✔</span> References that speak to real projects</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Clear split: learn vs. do</h3>
+          <p>
+            LuxDevHQ focuses on teaching you the foundations. LTLab focuses on
+            helping you practice, make mistakes, and grow on live problems.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Learn foundations at LuxDevHQ</li>
+            <li><span class="check">✔</span> Apply skills on LTLab internships</li>
+            <li><span class="check">✔</span> Build a portfolio that feels like work, not homework</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACKS / PROGRAMS -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Data Tracks You Can Join</h2>
+        <p>Choose a pathway that matches your current skills and where you want to grow.</p>
+      </div>
+      <div class="cards grid-2">
+        <article class="card service-card">
+          <h4>Data Analytics Track</h4>
+          <ul class="checklist">
+            <li><span class="check">✔</span> SQL and spreadsheet fundamentals</li>
+            <li><span class="check">✔</span> Dashboards with Power BI / Looker Studio</li>
+            <li><span class="check">✔</span> Storytelling with data for stakeholders</li>
+          </ul>
+        </article>
+        <article class="card service-card">
+          <h4>Data Engineering Track</h4>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Python for data pipelines</li>
+            <li><span class="check">✔</span> Warehousing &amp; ETL on modern stacks</li>
+            <li><span class="check">✔</span> Version control &amp; deployment basics</li>
+          </ul>
+        </article>
+        <article class="card service-card">
+          <h4>Data Science &amp; ML Track</h4>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Exploratory analysis &amp; feature engineering</li>
+            <li><span class="check">✔</span> Supervised &amp; unsupervised models</li>
+            <li><span class="check">✔</span> Practical intro to generative AI</li>
+          </ul>
+        </article>
+        <article class="card service-card">
+          <h4>Corporate &amp; Partner Programs</h4>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Custom internal training for data teams</li>
+            <li><span class="check">✔</span> Co-designed internship pipelines</li>
+            <li><span class="check">✔</span> Access to vetted data talent</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT DOMAINS (Industry Tabs) -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Project Domains Fellows Work On</h2>
+        <p>Every cohort works on a mix of domains that mirror real data roles in the region.</p>
+        <div class="tabs" role="tablist">
+          <button class="active" data-tab="finance" role="tab" aria-selected="true">Fintech</button>
+          <button data-tab="healthcare" role="tab">Healthcare</button>
+          <button data-tab="manufacturing" role="tab">Logistics</button>
+          <button data-tab="retail" role="tab">Retail &amp; E-commerce</button>
+        </div>
+      </div>
+      <div class="industry-wrap">
+        <img id="industry-img" alt="Project domain visual"
+             src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400&auto=format&fit=crop" />
+        <div>
+          <h3 id="industry-title">Fintech &amp; Inclusive Finance Projects</h3>
+          <ul class="checklist" id="industry-list">
+            <li><span class="check">✔</span> Transaction-level fraud and anomaly detection</li>
+            <li><span class="check">✔</span> Credit risk scoring with alternative data</li>
+            <li><span class="check">✔</span> Growth analytics for digital lending products</li>
+          </ul>
+          <a class="btn btn-primary" href="{{ url_for('research') }}">Explore our research</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS STORIES -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Fellows &amp; Partner Stories</h2>
+        <p>What happens after the internship? Here’s a glimpse.</p>
+      </div>
+      <div class="cards grid-2">
+        <article class="card story">
+          <span class="meta">Alumni · Data Analyst</span>
+          <h4>From economics graduate to product analytics at a fintech</h4>
+          <p>
+            After completing the LTLab analytics track, Achieng joined a regional
+            fintech as a Product Data Analyst, leading dashboards that are now used
+            daily by the growth and risk teams.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✔</span> Built a live cohort-retention dashboard</li>
+            <li><span class="check">✔</span> Led the data migration to a central warehouse</li>
+          </ul>
+        </article>
+        <article class="card story">
+          <span class="meta">Partner · Logistics Startup</span>
+          <h4>Reducing delivery failures with better routing data</h4>
+          <p>
+            A logistics startup partnered with LTLab fellows to analyse delivery
+            data across three cities. The result: a new routing heuristic that cut
+            failed deliveries by 21% in three months.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✔</span> 21% fewer failed deliveries</li>
+            <li><span class="check">✔</span> Playbook reused across new markets</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="container faq">
+      <div class="section-head"><h2>Frequently Asked Questions</h2></div>
+      <details>
+        <summary>Who is the LTLab Data Internship for?</summary>
+        <p>
+          Final-year students, recent graduates, and early-career professionals who
+          want to move into Data Analytics, Data Engineering, or Data Science and
+          are ready to commit 10–15 focused hours per week.
+        </p>
+      </details>
+      <details>
+        <summary>Is the internship paid?</summary>
+        <p>
+          Some partner-hosted roles are paid, others are learning-first placements.
+          We are transparent about compensation and expectations for each cohort and
+          role before you apply.
+        </p>
+      </details>
+      <details>
+        <summary>Do you teach data from scratch?</summary>
+        <p>
+          No. LTLab is not a teaching academy. For structured courses and foundations,
+          we recommend <strong>LuxDevHQ</strong>. LTLab focuses on applying those
+          skills on real projects and building your portfolio.
+        </p>
+      </details>
+      <details>
+        <summary>Can companies partner with LTLab for talent?</summary>
+        <p>
+          Yes. We co-design projects, host fellows inside partner teams, and support
+          hiring for internship-to-full-time pipelines. Reach out via
+          <strong>info@luxdevhq.com</strong>.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact">
+    <div class="container cta">
+      <div>
+        <h3>Ready to start your data journey?</h3>
+        <p>
+          Apply to the next cohort or talk to us about hosting fellows in your team.
+          One good project can change the direction of your career.
+        </p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="{{ url_for('apply') }}">Apply for the internship</a>
+        <a class="btn btn-outline" href="mailto:info@luxdevhq.com">Partner with LTLab</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h4>ltlab ltd</h4>
+        <p>
+          A learning lab building practical, playful pathways into data careers
+          across Africa. Powering LuxDevHQ and DSEAfrica.
+        </p>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li>Data Analytics</li>
+          <li>Data Engineering</li>
+          <li>Data Science &amp; ML</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li>About Us</li>
+          <li>Research</li>
+          <li>Careers</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Address</h4>
+        <p>D18A Garden Court, Garden Estate<br/>Nairobi, Kenya</p>
+        <p>Email: info@luxdevhq.com<br/>Phone: 0798166628</p>
+      </div>
+    </div>
+    <p class="copyright">© 2025 LuxDev Academy · LTLab. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Tab content for project domains
+    const tabCfg = {
+      finance: {
+        title: 'Fintech & Inclusive Finance Projects',
+        img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400&auto=format&fit=crop',
+        items: [
+          'Transaction-level fraud and anomaly detection',
+          'Credit risk scoring with alternative data',
+          'Growth analytics for digital lending products'
+        ]
+      },
+      healthcare: {
+        title: 'Healthcare & Public Health Projects',
+        img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400&auto=format&fit=crop',
+        items: [
+          'Clinic utilisation and capacity planning',
+          'Patient journey and outcomes dashboards',
+          'Supply chain analytics for essential medicines'
+        ]
+      },
+      manufacturing: {
+        title: 'Logistics & Operations Projects',
+        img: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1400&auto=format&fit=crop',
+        items: [
+          'Route optimisation and delivery reliability',
+          'Warehouse throughput analytics',
+          'Demand forecasting for key SKUs'
+        ]
+      },
+      retail: {
+        title: 'Retail & E-commerce Projects',
+        img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400&auto=format&fit=crop',
+        items: [
+          'Customer segmentation and cohorts',
+          'Recommendation and cross-sell analysis',
+          'Marketing and campaign performance tracking'
+        ]
+      }
+    };
+
+    const tabs = document.querySelectorAll('.tabs button');
+    const img = document.getElementById('industry-img');
+    const title = document.getElementById('industry-title');
+    const list = document.getElementById('industry-list');
+
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const cfg = tabCfg[btn.dataset.tab];
+      if(!cfg) return;
+      title.textContent = cfg.title;
+      img.src = cfg.img;
+      list.innerHTML = cfg.items
+        .map(t => `<li><span class="check">✔</span> ${t}</li>`)
+        .join('');
+    }));
+  </script>
+</body>
+</html>

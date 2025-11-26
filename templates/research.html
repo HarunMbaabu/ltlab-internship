@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — ltlab</title>
+
+  <style>
+    :root{
+      --brand:#1f3c88;
+      --brand-2:#0b63f6;
+      --ink:#101114;
+      --muted:#4a4f5a;
+      --bg:#f5f6fb;
+      --card:#ffffff;
+      --ring:rgba(31,60,136,.15);
+      --shadow:0 8px 24px rgba(15,23,42,.06);
+      --radius:14px;
+      --container:1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.5 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+      background:var(--bg);
+    }
+    .container{max-width:var(--container);margin-inline:auto;padding:0 24px}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #e5e7eb;z-index:50}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px;text-decoration:none;color:var(--ink)}
+    .logo-dot{width:28px;height:28px;border-radius:999px;background:radial-gradient(60% 60% at 30% 30%,#9ad,#48f 60%,#1f3c88);box-shadow:inset 0 0 0 2px #ecf2ff}
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem}
+    .nav-links a.active{color:var(--brand);}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.18s ease;cursor:pointer;font-size:.95rem}
+    .btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px var(--ring)}
+    .btn-primary:hover{transform:translateY(-1px)}
+
+    /* PAGE HEADER */
+    main{padding:40px 0 46px;}
+    .page-head{margin-bottom:20px;text-align:left}
+    .page-head h1{margin:0 0 6px;font-size:clamp(26px,3.4vw,34px);}
+    .page-head p{margin:0;color:var(--muted);max-width:60ch;font-size:.98rem}
+
+    /* YEAR TABS */
+    .year-tabs-wrap{display:flex;justify-content:center;margin:24px 0;}
+    .year-tabs{
+      display:inline-flex;
+      background:#f3f4f6;
+      border-radius:999px;
+      padding:4px;
+      gap:4px;
+      border:1px solid #e5e7eb;
+    }
+    .year-tabs button{
+      border:none;
+      background:transparent;
+      padding:6px 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:500;
+      font-size:.9rem;
+      color:#6b7280;
+    }
+    .year-tabs button.active{
+      background:#ffffff;
+      color:#111827;
+      box-shadow:0 4px 10px rgba(15,23,42,.08);
+    }
+
+    /* PAPER CARDS */
+    .papers{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+    .paper-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      border:1px solid #e5e7eb;
+      box-shadow:var(--shadow);
+      padding:16px 18px 18px;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .paper-main{max-width:760px}
+    .paper-meta{display:flex;align-items:center;gap:10px;font-size:.8rem;color:#6b7280;margin-bottom:6px}
+    .badge{
+      font-size:.7rem;
+      font-weight:600;
+      padding:3px 8px;
+      border-radius:999px;
+      background:#f3f4ff;
+      border:1px solid #d4ddff;
+      color:#1f3c88;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+    }
+    .paper-title{margin:0 0 4px;font-size:1.05rem}
+    .paper-authors{margin:0 0 8px;font-size:.88rem;color:#6b7280}
+    .paper-abstract{margin:0 0 8px;font-size:.9rem;color:#4b5563}
+    .paper-published{margin:0;font-size:.8rem;color:#6b7280}
+    .paper-actions{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:8px;
+      white-space:nowrap;
+      font-size:.85rem;
+    }
+    .btn-ghost{
+      border-radius:999px;
+      padding:6px 13px;
+      border:1px solid #e5e7eb;
+      background:#ffffff;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      font-size:.85rem;
+      font-weight:500;
+      color:#374151;
+    }
+    .btn-link{
+      border:none;
+      background:transparent;
+      color:#4b5563;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      padding:0;
+      font-size:.82rem;
+      text-decoration:none;
+    }
+    .btn-ghost span.icon,
+    .btn-link span.icon{
+      font-size:.9rem;
+    }
+
+    /* FOOTER */
+    footer{border-top:1px solid #e5e7eb;padding:26px 0 18px;background:#fbfbfd;margin-top:30px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:24px;font-size:.9rem}
+    footer h4{margin:0 0 9px;font-size:.95rem}
+    footer p, footer li{color:#5a5f6b;margin:0}
+    footer ul{list-style:none;padding:0;margin:0}
+    footer li{margin:5px 0}
+    .copyright{text-align:center;color:#8a8f99;margin-top:18px;font-size:.85rem}
+
+    @media (max-width: 960px){
+      .paper-card{flex-direction:column;align-items:flex-start}
+      .paper-actions{flex-direction:row;align-items:center}
+      .nav-links{display:none}
+    }
+    @media (max-width: 600px){
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 480px){
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+   <header class="navbar">
+    <div class="container nav-inner">
+
+
+
+      <div class="logo"><span class="logo-dot"></span>ltlab</div>
+      <nav class="nav-links">
+        <a href="{{ url_for('jobs') }}">
+            Jobs
+        </a>
+        <a href="{{ url_for('apply') }}">Apply Now</a>
+      </nav>
+      <a class="btn btn-primary" href="{{ url_for('learn') }}">Learn With AI</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-head">
+        <h1>LTLab Research Library</h1>
+        <p>
+          Peer-reviewed papers and applied research at the intersection of
+          generative AI, adaptive learning, and data careers in Sub-Saharan Africa.
+        </p>
+      </header>
+
+      <!-- YEAR FILTER TABS -->
+      <div class="year-tabs-wrap">
+        <div class="year-tabs" id="yearTabs">
+          <button data-year="2025" class="active">2025</button>
+          <button data-year="2024">2024</button>
+          <button data-year="2023">2023</button>
+        </div>
+      </div>
+
+      <!-- PAPERS -->
+      <section class="papers" id="papersList">
+        <!-- 2025 -->
+        <article class="paper-card" data-year="2025">
+          <div class="paper-main">
+            <div class="paper-meta">
+              <span class="badge">Journal Article</span>
+              <span>October 2025</span>
+            </div>
+            <h2 class="paper-title">
+              Adaptive Learning Systems: Personalized Education Through AI in Sub-Saharan Africa
+            </h2>
+            <p class="paper-authors">
+              Authors: John Doe, Jane Smith, Robert Johnson, et al.
+            </p>
+            <p class="paper-abstract">
+              This paper presents a novel approach to adaptive learning systems designed
+              specifically for resource-constrained environments in Sub-Saharan Africa.
+              We demonstrate how AI-powered educational tools can be optimized for
+              low-bandwidth settings while maintaining personalization capabilities.
+            </p>
+            <p class="paper-published">
+              Published in: <strong>Journal of Educational Technology</strong> • Vol. 45, Issue 3
+            </p>
+          </div>
+          <div class="paper-actions">
+            <button class="btn-ghost">
+              <span class="icon">📄</span>
+              <span>Read Paper</span>
+            </button>
+            <button class="btn-link">
+              <span class="icon">⬇️</span>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </article>
+
+        <article class="paper-card" data-year="2025">
+          <div class="paper-main">
+            <div class="paper-meta">
+              <span class="badge">Conference Paper</span>
+              <span>June 2025</span>
+            </div>
+            <h2 class="paper-title">
+              Gamified Data Skills: Using Generative AI to Mentor the Next Million Analysts
+            </h2>
+            <p class="paper-authors">
+              Authors: Amina Okafor, David Kimani, Priya Nair.
+            </p>
+            <p class="paper-abstract">
+              We explore an AI-driven learning environment where learners complete
+              narrative quests to master SQL, Python and analytics thinking. The system
+              dynamically generates challenges and feedback using large language models.
+            </p>
+            <p class="paper-published">
+              Presented at: <strong>Africa EdTech Summit</strong> • Cape Town, South Africa
+            </p>
+          </div>
+          <div class="paper-actions">
+            <button class="btn-ghost">
+              <span class="icon">📄</span>
+              <span>Read Paper</span>
+            </button>
+            <button class="btn-link">
+              <span class="icon">⬇️</span>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 2024 -->
+        <article class="paper-card" data-year="2024">
+          <div class="paper-main">
+            <div class="paper-meta">
+              <span class="badge">Journal Article</span>
+              <span>November 2024</span>
+            </div>
+            <h2 class="paper-title">
+              Low-Resource LLMs for African Classrooms: Lessons from a Live Pilot
+            </h2>
+            <p class="paper-authors">
+              Authors: Brian Mwenda, Lindiwe Khumalo, Michael Torres.
+            </p>
+            <p class="paper-abstract">
+              This study documents a year-long deployment of an offline-first language
+              model used to support teachers in Kenyan secondary schools, highlighting
+              accuracy, cultural alignment, and teacher adoption metrics.
+            </p>
+            <p class="paper-published">
+              Published in: <strong>International Journal of AI in Education</strong>
+            </p>
+          </div>
+          <div class="paper-actions">
+            <button class="btn-ghost">
+              <span class="icon">📄</span>
+              <span>Read Paper</span>
+            </button>
+            <button class="btn-link">
+              <span class="icon">⬇️</span>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </article>
+
+        <article class="paper-card" data-year="2024">
+          <div class="paper-main">
+            <div class="paper-meta">
+              <span class="badge">Technical Report</span>
+              <span>April 2024</span>
+            </div>
+            <h2 class="paper-title">
+              Measuring Skill Transfer from Simulated Data Projects to the Workplace
+            </h2>
+            <p class="paper-authors">
+              Authors: LTLab Research Team.
+            </p>
+            <p class="paper-abstract">
+              We evaluate how well simulated analytics projects prepare learners for
+              real-world roles, using employer feedback, portfolio reviews, and on-the-job
+              performance data from partner organizations.
+            </p>
+            <p class="paper-published">
+              LTLab Working Paper Series • Report No. 07-2024
+            </p>
+          </div>
+          <div class="paper-actions">
+            <button class="btn-ghost">
+              <span class="icon">📄</span>
+              <span>Read Paper</span>
+            </button>
+            <button class="btn-link">
+              <span class="icon">⬇️</span>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 2023 -->
+        <article class="paper-card" data-year="2023">
+          <div class="paper-main">
+            <div class="paper-meta">
+              <span class="badge">Whitepaper</span>
+              <span>September 2023</span>
+            </div>
+            <h2 class="paper-title">
+              Building Data Talent Pipelines for African Startups
+            </h2>
+            <p class="paper-authors">
+              Authors: LuxDevHQ &amp; LTLab Research Unit.
+            </p>
+            <p class="paper-abstract">
+              A landscape review of data-talent shortages across East Africa and a
+              proposed framework for work-integrated learning that bridges bootcamps,
+              universities, and early-stage companies.
+            </p>
+            <p class="paper-published">
+              LTLab / LuxDevHQ Joint Whitepaper
+            </p>
+          </div>
+          <div class="paper-actions">
+            <button class="btn-ghost">
+              <span class="icon">📄</span>
+              <span>Read Paper</span>
+            </button>
+            <button class="btn-link">
+              <span class="icon">⬇️</span>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h4>ltlab ltd</h4>
+        <p>Transforming how Africa learns data skills through research, internships, and playful AI-powered learning.</p>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li>Data Analytics</li>
+          <li>Data Engineering</li>
+          <li>Machine Learning</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li>About Us</li>
+          <li>Careers</li>
+          <li>Partners</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>D18A Garden Court, Garden Estate<br/>Nairobi, Kenya</p>
+        <p>Email: info@luxdevhq.com</p>
+      </div>
+    </div>
+    <p class="copyright">© 2025 LuxDev Academy · Research & Learning Lab.</p>
+  </footer>
+
+  <script>
+    // Simple year filter for the tabs
+    const tabs = document.querySelectorAll('#yearTabs button');
+    const cards = document.querySelectorAll('.paper-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const year = tab.dataset.year;
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        cards.forEach(card => {
+          card.style.display = (card.dataset.year === year) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    // Initialize to 2025
+    cards.forEach(card => {
+      if(card.dataset.year !== '2025') card.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learn With AI — Coming Soon | ltlab</title>
+   <link rel="icon" type="image/jpeg"
+        href="{{ url_for('static', filename='images/navimage.jpg') }}">
+
+  <style>
+    :root{
+      --brand:#1f3c88;
+      --brand-2:#0b63f6;
+      --ink:#101114;
+      --muted:#4a4f5a;
+      --bg:#ffffff;
+      --card:#fafafa;
+      --ring:rgba(31,60,136,.15);
+      --shadow:0 10px 30px rgba(16,17,20,.08);
+      --radius:18px;
+      --container:1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.5 "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+      background:radial-gradient(circle at top, #eef2ff 0, #ffffff 46%, #f9fafb 100%);
+    }
+    .container{max-width:var(--container);margin-inline:auto;padding:0 24px}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #eee;z-index:50}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px;text-decoration:none;color:var(--ink)}
+    .logo-dot{width:28px;height:28px;border-radius:999px;background:radial-gradient(60% 60% at 30% 30%,#9ad,#48f 60%,#1f3c88);box-shadow:inset 0 0 0 2px #ecf2ff}
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem}
+    .nav-links a.active{color:var(--brand);}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.18s ease;cursor:pointer;font-size:.95rem}
+    .btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px var(--ring)}
+    .btn-primary:hover{transform:translateY(-1px)}
+    .btn-outline{border-color:var(--brand);color:var(--brand);background:#fff}
+
+    /* MAIN LAYOUT */
+    main{min-height:calc(100vh - 200px);display:flex;align-items:center;padding:48px 0 40px;}
+    .hero{
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:40px;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:.8rem;color:var(--brand-2);
+      background:#eef2ff;border:1px solid #dce3ff;
+      padding:5px 10px;border-radius:999px;margin-bottom:14px
+    }
+    h1{
+      font-size:clamp(28px,4.4vw,46px);
+      line-height:1.05;margin:0 0 12px;
+    }
+    h1 span.accent{background:linear-gradient(135deg,#0b63f6,#22c55e);-webkit-background-clip:text;color:transparent}
+    .lead{color:var(--muted);max-width:52ch;font-size:1rem;margin-bottom:18px}
+    .pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+    .pill{
+      font-size:.8rem;padding:5px 11px;border-radius:999px;
+      background:rgba(15,23,42,.04);color:#374151;
+      border:1px dashed rgba(148,163,184,.8);
+    }
+    .coming-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:6px}
+    .coming-badge{
+      font-size:.8rem;padding:5px 10px;border-radius:999px;
+      background:#022c22;color:#a7f3d0;border:1px solid #059669;
+    }
+    .coming-text{font-size:.9rem;color:#4b5563}
+
+    .card-right{
+      background:rgba(255,255,255,.88);
+      border-radius:var(--radius);
+      border:1px solid #e5e7eb;
+      box-shadow:var(--shadow);
+      padding:22px 20px;
+    }
+    .card-right h2{margin:0 0 10px;font-size:1.1rem}
+    .steps{list-style:none;margin:0;padding:0;font-size:.9rem;color:#4b5563}
+    .steps li{display:flex;gap:10px;margin-bottom:9px}
+    .dot{
+      width:20px;height:20px;border-radius:999px;
+      background:rgba(37,99,235,.1);
+      display:inline-grid;place-items:center;
+      font-size:.75rem;color:#1d4ed8;font-weight:600;
+    }
+    .note{margin-top:12px;font-size:.8rem;color:#6b7280}
+
+    .notify{
+      margin-top:16px;
+      display:flex;flex-wrap:wrap;gap:8px;
+    }
+    .notify input{
+      flex:1 1 180px;
+      border-radius:999px;border:1px solid #d1d5db;
+      padding:8px 12px;font-size:.9rem;min-width:0;
+    }
+    .notify button{
+      border-radius:999px;border:none;
+      padding:8px 16px;font-size:.9rem;
+      background:linear-gradient(135deg,#0b63f6,#22c55e);
+      color:#fff;font-weight:600;cursor:pointer;
+      box-shadow:0 8px 18px rgba(37,99,235,.35);
+    }
+
+    /* FOOTER */
+    footer{border-top:1px solid #e5e7eb;padding:26px 0 18px;background:#fbfbfd}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:24px;font-size:.9rem}
+    footer h4{margin:0 0 9px;font-size:.95rem}
+    footer p, footer li{color:#5a5f6b;margin:0}
+    footer ul{list-style:none;padding:0;margin:0}
+    footer li{margin:5px 0}
+    .copyright{text-align:center;color:#8a8f99;margin-top:18px;font-size:.85rem}
+
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .card-right{order:-1}
+      .nav-links{display:none}
+    }
+    @media (max-width: 560px){
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 480px){
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="{{ url_for('home') }}" class="logo">
+        <span class="logo-dot"></span>
+        ltlab
+      </a>
+      <nav class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('apply') }}">Internships</a>
+      </nav>
+      <a class="btn btn-primary" href="{{ url_for('learn') }}">Learn With AI</a>
+    </div>
+  </header>
+
+  <!-- COMING SOON HERO -->
+  <main>
+    <div class="container">
+      <section class="hero">
+        <div>
+          <span class="tag">🎮 Learn With AI · Coming Soon</span>
+          <h1>
+            We’re building a <span class="accent">generative-AI playground</span>
+            for data careers.
+          </h1>
+          <p class="lead">
+            Soon you’ll be able to level-up in Data Science, Data Engineering,
+            and Data Analytics by playing missions, solving realistic quests,
+            and getting instant feedback from AI mentors.
+          </p>
+
+          <div class="pills">
+            <span class="pill">Daily data quests</span>
+            <span class="pill">Boss-level projects</span>
+            <span class="pill">XP for real skills</span>
+            <span class="pill">AI mentor on your team</span>
+          </div>
+
+          <div class="coming-row">
+            <span class="coming-badge">Coming soon</span>
+            <span class="coming-text">
+              We’re training the game engine with real data-profession workflows.
+            </span>
+          </div>
+
+          <form class="notify" onsubmit="event.preventDefault(); alert('Thanks! We\'ll let you know when Learn With AI goes live.');">
+            <input type="email" placeholder="Your email — get early access" required />
+            <button type="submit">Notify Me</button>
+          </form>
+        </div>
+
+        <aside class="card-right">
+          <h2>What we’re experimenting with</h2>
+          <ul class="steps">
+            <li>
+              <span class="dot">1</span>
+              <span><strong>Story-driven paths</strong> for data professions where you
+              “play through” the journey from beginner to practitioner.</span>
+            </li>
+            <li>
+              <span class="dot">2</span>
+              <span><strong>Adaptive challenges</strong> written by generative AI and
+              reviewed by humans, tuned to your skill level.</span>
+            </li>
+            <li>
+              <span class="dot">3</span>
+              <span><strong>Co-pilots for learning</strong> that explain, nudge, and
+              hint instead of just giving answers.</span>
+            </li>
+          </ul>
+          <p class="note">
+            This is a living lab. Things will break, change, and get better with your feedback.
+          </p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h4>ltlab ltd</h4>
+        <p>We’re building playful learning experiences for the next generation of data professionals.</p>
+      </div>
+      <div>
+        <h4>Tracks</h4>
+        <ul>
+          <li>Data Analytics</li>
+          <li>Data Engineering</li>
+          <li>Machine Learning</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li>About</li>
+          <li>Careers</li>
+          <li>Partner With Us</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>D18A Garden Court, Garden Estate<br/>Nairobi, Kenya</p>
+        <p>Email: info@luxdevhq.com</p>
+      </div>
+    </div>
+    <p class="copyright">© 2025 LuxDev Academy. Learn With AI is in active development.</p>
+  </footer>
+</body>
+</html>
