@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apply | LTLab Data Internship</title>
-   <link rel="icon" type="image/jpeg"
+  <link rel="icon" type="image/jpeg"
         href="{{ url_for('static', filename='images/navimage.jpg') }}">
   <style>
     * {
@@ -219,6 +219,13 @@
           <h1>Data Internship Application</h1>
           <p>Fill in your details below to apply for the LTLab Data Internship.</p>
         </div>
+
+        {% if error %}
+          <div style="margin-bottom: 12px; padding: 8px 10px; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-size: 13px;">
+            {{ error }}
+          </div>
+        {% endif %}
+
         <form action="{{ url_for('apply') }}" method="post">
           <div class="field">
             <label for="email">
@@ -303,9 +310,6 @@
               <option value="" disabled selected>-- Select Country --</option>
               <option value="Kenya">Kenya</option>
               <option value="India">India</option>
-              <option value="United States">United States</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Canada">Canada</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -322,8 +326,6 @@
               required
             />
           </div>
-
-          <!-- BRANCH NAME REMOVED -->
 
           <div class="field">
             <label>

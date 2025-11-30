@@ -1,17 +1,7 @@
 # Ignore virtual environment
 appenv/
-
 # (optional but recommended)
 __pycache__/
 *.py[cod]
-
-
-.env
-
-
-
-
-
-
 .env
 .env
